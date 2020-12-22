@@ -12,6 +12,9 @@
         <% if logged_in? %>
          <li class="nav-item nav-link active" aria-current="page">
          <%= link_to 'Logout',logout_path,method: :delete %>
+         <li class="nav-item nav-link active" aria-current="page">
+         <%= link_to 'Openings',openings_path %>
+
         </li>
         <%else%>
         <li class="nav-item">

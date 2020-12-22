@@ -1,0 +1,13 @@
+<h1><%= @opening.title %></h1>
+
+<p><%= @opening.description %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
+</ul>
+
+<ul>
+  <li><%= link_to "Delete", opening_path(@opening), 
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>
