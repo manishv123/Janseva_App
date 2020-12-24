@@ -10,11 +10,21 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <% if logged_in? %>
-         <li class="nav-item nav-link active" aria-current="page">
-         <%= link_to 'Logout',logout_path,method: :delete %>
-         <li class="nav-item nav-link active" aria-current="page">
-         <%= link_to 'Openings',openings_path %>
-
+         <li class="nav-item" aria-current="page">
+         <%= link_to 'Logout',logout_path,method: :delete,class: "nav-link active" %>
+         <li class="nav-item" aria-current="page">
+         <%= link_to 'Openings',openings_path,class: "nav-link active" %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Your Profile
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><%= link_to "Edit profile",edit_user_path(current_user),class: "dropdown-item" %></li>
+            <li><%= link_to "View profile",user_path(current_user),class: "dropdown-item"%></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
         </li>
         <%else%>
         <li class="nav-item">

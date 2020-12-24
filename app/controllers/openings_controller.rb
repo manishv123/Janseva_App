@@ -1,5 +1,5 @@
 class OpeningsController < ApplicationController
-
+    before_action :require_user
     def index
         @openings=Opening.all
     end
