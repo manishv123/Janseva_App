@@ -2,6 +2,7 @@
 
 <p><%= @opening.description %></p>
 
+<% if current_user.admin? %>
 <ul>
   <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
 </ul>
@@ -11,3 +12,4 @@
                   method: :delete,
                   data: { confirm: "Are you sure?" } %></li>
 </ul>
+<% end %>
