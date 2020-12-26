@@ -9,24 +9,40 @@ class OpeningsController < ApplicationController
     end
 
     def new
-        @opening=Opening.new
+        if current_user.admin?
+            @opening=Opening.new
+        else
+            flash[:danger]="Login as Admin first"
+            redirect_to openings_path
+        end
     end
 
     def create
-        @opening=Opening.new(opening_params)
+        if current_user.admin?
+            @opening=Opening.new(opening_params)
 
-        if @opening.save
-            redirect_to @opening
+            if @opening.save
+                redirect_to @opening
+            else
+                render :new
+            end
         else
-            render :new
+            flash[:danger]="Login as Admin first"
+            redirect_to openings_path
         end
     end
 
     def edit
+        if current_user.admin?
         @opening=Opening.find(params[:id])
+        else
+        flash[:danger]="Login as Admin first"
+        redirect_to openings_path
+        end
     end
 
     def update
+        if current_user.admin?
         @opening=Opening.find(params[:id])
 
         if @opening.update(opening_params)
@@ -34,13 +50,21 @@ class OpeningsController < ApplicationController
         else
             render :edit
         end
+    else
+        flash[:danger]="Login as Admin first"
+        redirect_to openings_path
+    end
     end
 
     def destroy
+        if current_user.admin?
         @opening = Opening.find(params[:id])
         @opening.destroy
-
         redirect_to openings_path
+        else
+        flash[:danger]="Login as Admin first"
+        redirect_to openings_path
+        end
     end
 
     private
