@@ -3,13 +3,44 @@
 <p><%= @opening.description %></p>
 
 <% if current_user.admin? %>
-<ul>
-  <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
-</ul>
+    <ul>
+      <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
+    </ul>
 
-<ul>
-  <li><%= link_to "Delete", opening_path(@opening), 
-                  method: :delete,
-                  data: { confirm: "Are you sure?" } %></li>
-</ul>
+    <ul>
+      <li><%= link_to "Delete", opening_path(@opening), 
+                      method: :delete,
+                      data: { confirm: "Are you sure?" } %></li>
+    </ul>
+
+<% else %>
+
+    <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
+
+        <%= link_to "Apply",applyForm_path(@opening)%>
+
+    <% else %>
+
+        <% @users = Opportunity.where(:opid =>@opening.id) %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Email ID</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |u| %>
+              <% @userid = u.uid %>
+              <tr>
+                <td><%= User.find(@userid).email %> </td>
+                <td><%= User.find(@userid).username %> </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      <% end %>
+      
 <% end %>

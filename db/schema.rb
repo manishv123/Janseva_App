@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 2020_12_26_082851) do
   end
 
   create_table "opportunities", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
+    t.integer "uid"
+    t.integer "opid"
+    t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
