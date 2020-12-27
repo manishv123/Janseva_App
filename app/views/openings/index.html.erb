@@ -7,5 +7,6 @@
     </li>
   <% end %> 
 </ul>
-
+<% if current_user.admin? %>
 <%= link_to "New Opening", new_opening_path %>
+<% end %>
