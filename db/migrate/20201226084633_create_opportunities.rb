@@ -4,7 +4,6 @@ class CreateOpportunities < ActiveRecord::Migration[6.0]
       t.integer :uid
       t.integer :opid
       t.boolean :status
-
       t.timestamps
     end
   end

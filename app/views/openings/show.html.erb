@@ -13,6 +13,25 @@
                       data: { confirm: "Are you sure?" } %></li>
     </ul>
 
+        <% @users = Opportunity.where(:opid =>@opening.id) %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Email ID</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |u| %>
+              <% @userid = u.uid %>
+              <tr>
+                <td><%= User.find(@userid).email %> </td>
+                <td><%= User.find(@userid).username %> </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
 <% else %>
 
     <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
