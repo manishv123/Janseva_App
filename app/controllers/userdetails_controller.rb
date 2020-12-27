@@ -1,15 +1,18 @@
 class UserdetailsController < ApplicationController
     before_action :require_user
-    before_action :set_user,only: [:edit,:update,:show]
+    before_action :set_userdetails,only: [:edit,:update,:show]
     def new
-        @userdetails=Userdetail.new
+        @userdetail=Userdetail.new
     end
     def create    
     @userdetail=Userdetail.new(userdetail_params)
     @userdetail.uuid=current_user.id;
             if @userdetail.save
+                @current_user.usid=@userdetail.id;
+                if @current_user.save
                 flash[:success]="Successfully Added Details"
                 redirect_to root_path
+                end
             else
                 render :new
             end
@@ -34,7 +37,7 @@ class UserdetailsController < ApplicationController
     def userdetail_params
         params.require(:userdetail).permit(:name, :gender, :age, :address, :pincode, :phone, :aadhaar)
     end
-    def set_user
-        @userdetails=Userdetail.find(params[:id])
+    def set_userdetails
+        @userdetail=Userdetail.find(params[:id])
     end
 end

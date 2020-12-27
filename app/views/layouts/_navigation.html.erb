@@ -17,12 +17,15 @@
          <%= link_to 'Openings',openings_path,class: "nav-link active" %>
            </li>
            <% if !current_user.admin? %>
+           <% if !current_user.usid?%>
            <li class="nav-item" aria-current="page">
          <%= link_to 'Add More Details',new_userdetail_path,class: "nav-link active" %>
            </li>
+           <% else %>
              <li class="nav-item" aria-current="page">
-         <%= link_to 'Edit Details',edit_userdetail_path(1),class: "nav-link active" %>
+         <%= link_to 'Edit Details',edit_userdetail_path(current_user.usid),class: "nav-link active" %>
            </li>
+           <% end %>
            <% end %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
