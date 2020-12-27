@@ -1,7 +1,13 @@
 <h1>Openings</h1>
 
+<% if current_user.admin==true %>
+  <% @myOpenings=@openings.where(:userid => current_user.id) %>
+<% else %>
+  <% @myOpenings=@openings %>
+<% end %>
+
 <ul>
-  <% @openings.each do |opening| %>
+  <% @myOpenings.each do |opening| %>
     <li>
         <%=link_to opening.title,opening%>
     </li>

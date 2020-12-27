@@ -13,15 +13,7 @@
                       data: { confirm: "Are you sure?" } %></li>
     </ul>
 
-<% else %>
-
-    <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
-
-        <%= link_to "Apply",applyForm_path(@opening)%>
-
-    <% else %>
-
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
+    <% @users = Opportunity.where(:opid =>@opening.id) %>
 
         <table>
           <thead>
@@ -41,6 +33,11 @@
           </tbody>
         </table>
 
-      <% end %>
+<% else %>
+
+    <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
+
+        <%= link_to "Apply",applyForm_path(@opening)%>
       
+    <% end %>
 <% end %>
