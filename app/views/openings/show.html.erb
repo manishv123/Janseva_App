@@ -12,6 +12,13 @@
                   method: :delete,
                   data: { confirm: "Are you sure?" } %></li>
 </ul>
-<% end %>
 
-<%= link_to "Apply",applyForm_path(@opening)%>
+<% else %>
+
+<% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
+
+  <%= link_to "Apply",applyForm_path(@opening)%>
+
+  <% end %>
+
+<% end %>
