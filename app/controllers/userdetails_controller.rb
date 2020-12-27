@@ -1,4 +1,5 @@
 class UserdetailsController < ApplicationController
+    before_action :require_user
     def new
         @userdetails=Userdetail.new
     end
