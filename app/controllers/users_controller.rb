@@ -44,6 +44,6 @@ class UsersController < ApplicationController
     end
     def set_user
         @user=User.find(params[:id])
-        @userdetail=Userdetail.find(params[:id])
+        @userdetail=Userdetail.find(current_user.usid)
     end
 end
