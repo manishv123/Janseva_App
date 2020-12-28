@@ -1,5 +1,6 @@
 class OpeningsController < ApplicationController
     before_action :require_user
+    before_action :check_uuid
     def index
         @openings=Opening.all
     end

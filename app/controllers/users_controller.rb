@@ -14,7 +14,7 @@ class UsersController < ApplicationController
         if @user.save
             session[:user_id]=@user.id
             flash[:success]="Successfully Signed Up"
-            redirect_to user_path(@user)
+            redirect_to new_userdetail_path
         else
             render 'new'
         end
@@ -44,5 +44,6 @@ class UsersController < ApplicationController
     end
     def set_user
         @user=User.find(params[:id])
+        @userdetail=Userdetail.find(params[:id])
     end
 end

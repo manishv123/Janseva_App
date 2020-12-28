@@ -12,4 +12,10 @@ class ApplicationController < ActionController::Base
             redirect_to root_path
         end
     end
+    def check_uuid
+        if !current_user.usid? && !current_user.admin?
+            flash[:danger]="Add Details First"
+            redirect_to new_userdetail_path
+        end
+    end
 end
