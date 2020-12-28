@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2020_12_28_091112) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest"
     t.boolean "admin", default: false
+    t.integer "usid"
   end
 
   add_foreign_key "feedbacks", "openings"
