@@ -1,0 +1,40 @@
+<% if @userdetail.errors.any? %>
+<ul>
+    <%@userdetail.errors.full_messages.each do |msg|%>
+    <li><%= msg %></li>
+    <%end%>
+</ul>    
+<%end%>
+<%= form_for @userdetail do |f| %>
+<p>
+<%= f.label :name%><br>
+<%= f.text_field :name%>
+</p>
+<label for="gender">Choose gender:</label>
+<%= f.select :gender, options_for_select([["Select One", ""], "Male", "Female","Others"]), :class => 'genForm_dropBox' %>
+<br><br>
+<p>
+<%= f.label :age%><br>
+<%= f.text_field :age%>
+</p>
+<p>
+<%= f.label :address%><br>
+<%= f.text_area :address%>
+</p>
+<p>
+<%= f.label :pincode%><br>
+<%= f.text_field :pincode%>
+</p>
+<p>
+<%= f.label :phone%><br>
+<%= f.text_field :phone%>
+</p>
+<p>
+<%= f.label :aadhaar%><br>
+<%= f.text_field :aadhaar%>
+</p>
+<p>
+<%= f.submit "Submit Details" %>
+</p>
+<% end %>
+

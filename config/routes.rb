@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-
-  resources:openings
+  get 'applyForm', to:'opportunities#applyForm'
+  resources :openings
+  resources :opportunities
+  resources :userdetails, except: [:delete]
 end
