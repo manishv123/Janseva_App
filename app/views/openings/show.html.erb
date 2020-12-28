@@ -2,6 +2,7 @@
 
 <p><%= @opening.description %></p>
 
+
 <% if current_user.admin? %>
     <ul>
       <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
@@ -12,6 +13,17 @@
                       method: :delete,
                       data: { confirm: "Are you sure?" } %></li>
     </ul>
+
+    <% if !@opening.feedbacks.empty? %>
+          <h4>Feedbacks</h4>
+          <% @opening.feedbacks.each do |feedback| %>
+            <p>
+              <strong><%= User.find(feedback.uid).email%></strong>
+              <%= feedback.body %>
+            </p>
+          <% end %>
+    <% end %>
+
 
     <% @users = Opportunity.where(:opid =>@opening.id) %>
 
@@ -38,8 +50,38 @@
     <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
 
         <%= link_to "Apply",applyForm_path(@opening)%>
-      
-    <% end %>
-<% end %>
+        
+        <% if !@opening.feedbacks.empty? %>
+          <h4>Feedbacks</h4>
+          <% @opening.feedbacks.each do |feedback| %>
+            <p>
+              <strong><%= User.find(feedback.uid).email%></strong>
+              <%= feedback.body %>
+            </p>
+          <% end %>
+        <% end %>
+    <%else%>
 
-<%= link_to "Feedback",applyForm_path(@opening)%>
+    <% if !@opening.feedbacks.empty? %>
+          <h4>Feedbacks</h4>
+          <% @opening.feedbacks.each do |feedback| %>
+            <p>
+              <strong><%= User.find(feedback.uid).email%></strong>
+              <%= feedback.body %>
+            </p>
+          <% end %>
+    <% end %>
+
+      <%= form_with model: [ @opening, @opening.feedbacks.build ] do |form| %>
+      <p>
+        <%= form.label :Feedback %><br>
+        <%= form.text_area :body %>
+      </p>
+      <p>
+        <%= form.submit %>
+      </p>
+
+    <% end %>
+  
+    <%end%>
+<% end %>

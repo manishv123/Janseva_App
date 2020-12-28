@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_182537) do
+ActiveRecord::Schema.define(version: 2020_12_28_091112) do
 
   create_table "feedbacks", force: :cascade do |t|
-    t.integer "userid"
-    t.integer "opid"
-    t.text "feedback"
+    t.text "body"
+    t.integer "opening_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "uid"
+    t.index ["opening_id"], name: "index_feedbacks_on_opening_id"
   end
 
   create_table "openings", force: :cascade do |t|
@@ -36,6 +37,17 @@ ActiveRecord::Schema.define(version: 2020_12_27_182537) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "userdetails", force: :cascade do |t|
+    t.integer "uuid"
+    t.string "name"
+    t.string "gender"
+    t.integer "age"
+    t.text "address"
+    t.integer "pincode"
+    t.integer "phone"
+    t.integer "aadhaar"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -45,4 +57,5 @@ ActiveRecord::Schema.define(version: 2020_12_27_182537) do
     t.boolean "admin", default: false
   end
 
+  add_foreign_key "feedbacks", "openings"
 end
