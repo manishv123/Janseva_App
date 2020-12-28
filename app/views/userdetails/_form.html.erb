@@ -1,11 +1,11 @@
-<% if @userdetails.errors.any? %>
+<% if @userdetail.errors.any? %>
 <ul>
-    <%@userdetails.errors.full_messages.each do |msg|%>
+    <%@userdetail.errors.full_messages.each do |msg|%>
     <li><%= msg %></li>
     <%end%>
 </ul>    
 <%end%>
-<%= form_for @userdetails do |f| %>
+<%= form_for @userdetail do |f| %>
 <p>
 <%= f.label :name%><br>
 <%= f.text_field :name%>
