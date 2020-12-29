@@ -13,6 +13,20 @@
                       data: { confirm: "Are you sure?" } %></li>
     </ul>
 
+    <% if !@opening.feedbacks.empty? %>
+        <br><br>
+        <h4>Feedbacks</h4>
+        <% @opening.feedbacks.each do |feedback| %>
+          <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+            <p>
+              <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+              <%= feedback.body %>
+            </p>
+        <% end %>
+    <% end %>
+
+
+
         <% @users = Opportunity.where(:opid =>@opening.id) %>
         <% if !@users.empty? %>
           <table>
@@ -50,6 +64,19 @@
 
         <%= link_to "Apply",applyForm_path(@opening)%>
 
+        <% if !@opening.feedbacks.empty? %>
+            <br><br>
+            <h4>Feedbacks</h4>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <p>
+                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+                <%= feedback.body %>
+              </p>
+            <% end %>
+        <% end %>
+
+
     <% else %>
           <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
           Status: 
@@ -59,6 +86,29 @@
             Approved
           <% end %>
           <br><br>
-          <li><%= link_to "Withdraw", withdraw_path(@opening) %></li>
+          <%= link_to "Withdraw", withdraw_path(@opening) %>
+
+          <% if !@opening.feedbacks.empty? %>
+            <br><br>
+            <h4>Feedbacks</h4>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <p>
+                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+                <%= feedback.body %>
+              </p>
+          <% end %>
+    <% end %>
+
+    <%= form_with model: [ @opening, @opening.feedbacks.build ] do |form| %>
+      <p>
+        <%= form.label :Feedback %><br>
+        <%= form.text_area :body %>
+      </p>
+      <p>
+        <%= form.submit %>
+      </p>
+    <% end %>          
+
     <% end %>
 <% end %>

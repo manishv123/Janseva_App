@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_053835) do
+ActiveRecord::Schema.define(version: 2020_12_29_111827) do
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "uid"
+    t.text "body"
+    t.integer "opening_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["opening_id"], name: "index_feedbacks_on_opening_id"
+  end
 
   create_table "openings", force: :cascade do |t|
     t.string "title"
@@ -49,4 +58,5 @@ ActiveRecord::Schema.define(version: 2020_12_29_053835) do
     t.integer "usid"
   end
 
+  add_foreign_key "feedbacks", "openings"
 end
