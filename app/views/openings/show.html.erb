@@ -14,24 +14,36 @@
     </ul>
 
         <% @users = Opportunity.where(:opid =>@opening.id) %>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
+        <% if !@users.empty? %>
+          <table>
+            <thead>
               <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% @users.each do |u| %>
+                <% @userid = u.uid %>
+                <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
+                <tr>
+                  <td><%= Userdetail.find(@userid).name %> </td>
+                  <td><%= Userdetail.find(@userid).gender %> </td>
+                  <td><%= Userdetail.find(@userid).age %> </td>
+                  <% if !@temp %>
+                    <td>Pending</td>
+                  <% else %>
+                    <td>Approved</td>
+                  <% end %>
+                  <td><%= link_to "View Details", showDetails_path(@userid)%></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
 <% else %>
 
     <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
@@ -39,27 +51,14 @@
         <%= link_to "Apply",applyForm_path(@opening)%>
 
     <% else %>
-
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
-              <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-      <% end %>
-      
+          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
+          Status: 
+          <% if !@check %>
+            Pending
+          <% else %>
+            Approved
+          <% end %>
+          <br><br>
+          <li><%= link_to "Withdraw", withdraw_path(@opening) %></li>
+    <% end %>
 <% end %>
