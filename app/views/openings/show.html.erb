@@ -21,18 +21,24 @@
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Age</th>
+                <th>Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <% @users.each do |u| %>
                 <% @userid = u.uid %>
+                <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
                 <tr>
                   <td><%= Userdetail.find(@userid).name %> </td>
                   <td><%= Userdetail.find(@userid).gender %> </td>
                   <td><%= Userdetail.find(@userid).age %> </td>
-                  <td><%= link_to "View Details", userdetail_path(@userid)%></td>
-                  
+                  <% if !@temp %>
+                    <td>Pending</td>
+                  <% else %>
+                    <td>Approved</td>
+                  <% end %>
+                  <td><%= link_to "View Details", showDetails_path(@userid)%></td>
                 </tr>
               <% end %>
             </tbody>
@@ -45,7 +51,14 @@
         <%= link_to "Apply",applyForm_path(@opening)%>
 
     <% else %>
-
+          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
+          Status: 
+          <% if !@check %>
+            Pending
+          <% else %>
+            Approved
+          <% end %>
+          <br><br>
+          <li><%= link_to "Withdraw", withdraw_path(@opening) %></li>
     <% end %>
-      
 <% end %>
