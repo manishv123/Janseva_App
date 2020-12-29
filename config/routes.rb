@@ -12,5 +12,10 @@ Rails.application.routes.draw do
   get 'showDetails', to:'opportunities#showDetails'
   resources :openings
   resources :opportunities
+
+  resources :openings do
+    resources :feedbacks
+  end
+
   resources :userdetails, except: [:delete]
 end
