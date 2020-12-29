@@ -14,24 +14,30 @@
     </ul>
 
         <% @users = Opportunity.where(:opid =>@opening.id) %>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
+        <% if !@users.empty? %>
+          <table>
+            <thead>
               <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% @users.each do |u| %>
+                <% @userid = u.uid %>
+                <tr>
+                  <td><%= Userdetail.find(@userid).name %> </td>
+                  <td><%= Userdetail.find(@userid).gender %> </td>
+                  <td><%= Userdetail.find(@userid).age %> </td>
+                  <td><%= link_to "View Details", userdetail_path(@userid)%></td>
+                  
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
 <% else %>
 
     <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
@@ -40,26 +46,6 @@
 
     <% else %>
 
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
-              <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-      <% end %>
+    <% end %>
       
 <% end %>
