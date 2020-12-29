@@ -44,9 +44,9 @@
                 <% @userid = u.uid %>
                 <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
                 <tr>
-                  <td><%= Userdetail.find(@userid).name %> </td>
-                  <td><%= Userdetail.find(@userid).gender %> </td>
-                  <td><%= Userdetail.find(@userid).age %> </td>
+                  <td><%= Userdetail.find_by(uuid:@userid).name %> </td>
+                  <td><%= Userdetail.find_by(uuid:@userid).gender %> </td>
+                  <td><%= Userdetail.find_by(uuid:@userid).age %> </td>
                   <% if !@temp %>
                     <td>Pending</td>
                   <% else %>
