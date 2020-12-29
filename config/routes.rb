@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'applyForm', to:'opportunities#applyForm'
   get 'withdraw', to:'opportunities#withdraw'
   get 'showDetails', to:'opportunities#showDetails'
+  get 'users/:id/makeadmin', to: 'users#makeadmin', :as => "active_user"
+  get 'users/:id/removeadmin', to: 'users#removeadmin', :as => "deactive_user"
   resources :openings
   resources :opportunities
 
