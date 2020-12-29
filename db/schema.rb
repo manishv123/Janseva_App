@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_111827) do
+ActiveRecord::Schema.define(version: 2020_12_29_164532) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.integer "uid"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_111827) do
     t.string "password_digest"
     t.boolean "admin", default: false
     t.integer "usid"
+    t.boolean "super", default: false
   end
 
   add_foreign_key "feedbacks", "openings"

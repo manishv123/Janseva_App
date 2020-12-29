@@ -18,7 +18,7 @@
          <%= link_to 'Openings',openings_path,class: "nav-link active" %>
            </li>
            <%end%>
-           <% if !current_user.admin? %>
+           <% if !current_user.admin? && !current_user.super? %>
            <% if !current_user.usid? %>
            <li class="nav-item" aria-current="page">
          <%= link_to 'Add More Details',new_userdetail_path,class: "nav-link active" %>
@@ -32,7 +32,11 @@
          </li>
            <% end %>
            <% end %>
-      
+      <%if current_user.super?%>
+          <li class="nav-item" aria-current="page">
+         <%= link_to 'All Users',users_path,class: "nav-link active" %>
+         </li>
+      <%end%>
         <%else%>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/signup">SignUp</a>
