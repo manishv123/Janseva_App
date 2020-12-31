@@ -6,11 +6,13 @@
 </div>
 <br>
 <h4>Your Email: <%= @user.email %></h4>
+<%if current_user.usid? %>
 <h4>Name: <%= @userdetail.name %></h4>
 <h4>Address: <%= @userdetail.address %></h4>
 <h4>Pincode: <%= @userdetail.pincode %></h4>
 <h4>Age: <%= @userdetail.age %></h4>
 <h4>Gender: <%= @userdetail.gender %></h4>
 <h4>Phone: <%= @userdetail.phone %></h4>
+<% end %>
 
 

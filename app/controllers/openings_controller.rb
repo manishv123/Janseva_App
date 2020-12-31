@@ -59,17 +59,19 @@ class OpeningsController < ApplicationController
 
     def destroy
         if current_user.admin?
-        @opening = Opening.find(params[:id])
-        @opening.destroy
-        redirect_to openings_path
+            @opening = Opening.find(params[:id])
+            @opening.destroy
+            redirect_to openings_path
         else
-        flash[:danger]="Login as Admin first"
-        redirect_to openings_path
+            flash[:danger]="Login as Admin first"
+            redirect_to openings_path
         end
     end
 
     private
     def opening_params
-      params.require(:opening).permit(:title, :description)
+        allowedParams = params.require(:opening).permit(:title, :description, :userid)
+        allowedParams[:userid]=current_user.id
+        allowedParams
     end
 end

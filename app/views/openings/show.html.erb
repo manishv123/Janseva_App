@@ -13,53 +13,105 @@
                       data: { confirm: "Are you sure?" } %></li>
     </ul>
 
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
+    <% if !@opening.feedbacks.empty? %>
+        <br><br>
+        <h4>Feedbacks</h4>
+        <% @opening.feedbacks.each do |feedback| %>
+          <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+            <p>
+              <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+              <%= feedback.body %>
+            </p>
+        <% end %>
+    <% end %>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
+
+
+        <% @users = Opportunity.where(:opid =>@opening.id) %>
+        <% if !@users.empty? %>
+          <table>
+            <thead>
               <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th></th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% @users.each do |u| %>
+                <% @userid = u.uid %>
+                <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
+                <tr>
+                  <td><%= Userdetail.find_by(uuid:@userid).name %> </td>
+                  <td><%= Userdetail.find_by(uuid:@userid).gender %> </td>
+                  <td><%= Userdetail.find_by(uuid:@userid).age %> </td>
+                  <% if !@temp %>
+                    <td>Pending</td>
+                    <% @OpID=Opportunity.find_by(opid:@opening.id,uid:@userid).id %>
+                    <td><%= link_to 'Approve',approveApplication_path(@OpID)%></td>
+                    <td><%= link_to 'Reject',rejectApplication_path(@OpID)%></td>
+                  <% else %>
+                    <td>Approved</td>
+                  <% end %>
+                  <td><%= link_to "View Details", showDetails_path(@userid)%></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
 <% else %>
 
     <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
 
         <%= link_to "Apply",applyForm_path(@opening)%>
 
-    <% else %>
-
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Email ID</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <% @userid = u.uid %>
-              <tr>
-                <td><%= User.find(@userid).email %> </td>
-                <td><%= User.find(@userid).username %> </td>
-              </tr>
+        <% if !@opening.feedbacks.empty? %>
+            <br><br>
+            <h4>Feedbacks</h4>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <p>
+                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+                <%= feedback.body %>
+              </p>
             <% end %>
-          </tbody>
-        </table>
+        <% end %>
 
-      <% end %>
-      
+
+    <% else %>
+          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
+          Status: 
+          <% if !@check %>
+            Pending
+          <% else %>
+            Approved
+          <% end %>
+          <br><br>
+          <%= link_to "Withdraw", withdraw_path(@opening) %>
+
+          <% if !@opening.feedbacks.empty? %>
+            <br><br>
+            <h4>Feedbacks</h4>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <p>
+                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+                <%= feedback.body %>
+              </p>
+          <% end %>
+    <% end %>
+
+    <%= form_with model: [ @opening, @opening.feedbacks.build ] do |form| %>
+      <p>
+        <%= form.label :Feedback %><br>
+        <%= form.text_area :body %>
+      </p>
+      <p>
+        <%= form.submit %>
+      </p>
+    <% end %>          
+
+    <% end %>
 <% end %>

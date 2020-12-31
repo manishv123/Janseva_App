@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
-   before_action :set_user,only: [:edit,:update,:show]
+   before_action :set_user,only: [:edit,:update,:show,:make_admin]
    before_action :require_user,except: [:create,:new]
     def index
-        @users=User.all
+        if current_user.super?
+            @users=User.all
+        else
+            flash[:danger]="Not Eligible to View Path"
+            redirect_to root_path
+        end
     end
 
     def new
@@ -38,12 +43,28 @@ class UsersController < ApplicationController
 
     end
 
+    def makeadmin
+        @user = User.find(params[:id])
+        if @user.update_attribute(:admin, true)
+          redirect_to users_path
+        end 
+    end
+
+    def removeadmin
+        @user = User.find(params[:id])
+        if @user.update_attribute(:admin, false)
+          redirect_to users_path
+        end 
+    end
+
     private
     def user_params
         params.require(:user).permit(:username, :email, :password)
     end
     def set_user
         @user=User.find(params[:id])
-        @userdetail=Userdetail.find(current_user.usid)
+        if current_user.usid? 
+            @userdetail=Userdetail.find(current_user.usid) 
+        end
     end
 end
