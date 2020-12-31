@@ -5,7 +5,7 @@ class UsersController < ApplicationController
         if current_user.super?
             @users=User.all
         else
-            flash[:danger]="Not Eligible to View Path"
+            flash[:warn]="Not Eligible to View Path"
             redirect_to root_path
         end
     end
