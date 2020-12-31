@@ -19,6 +19,21 @@ class OpportunitiesController < ApplicationController
          flash[:success]="Withdrawn successfully"
     end
 
+    def approveApplication
+        @opportunity = Opportunity.find(params[:format])
+        @openingid=@opportunity.opid
+        if @opportunity.update_attribute(:status, true)
+            redirect_to opening_path(@openingid)
+        end
+    end
+
+    def rejectApplication
+        @opportunity = Opportunity.find(params[:format])
+        @openingid=@opportunity.opid
+        @opportunity.destroy
+        redirect_to opening_path(@openingid)
+    end
+
     def showDetails
         @userID=params[:format]
     end

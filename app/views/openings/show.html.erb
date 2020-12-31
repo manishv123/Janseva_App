@@ -49,6 +49,9 @@
                   <td><%= Userdetail.find_by(uuid:@userid).age %> </td>
                   <% if !@temp %>
                     <td>Pending</td>
+                    <% @OpID=Opportunity.find_by(opid:@opening.id,uid:@userid).id %>
+                    <td><%= link_to 'Approve',approveApplication_path(@OpID)%></td>
+                    <td><%= link_to 'Reject',rejectApplication_path(@OpID)%></td>
                   <% else %>
                     <td>Approved</td>
                   <% end %>

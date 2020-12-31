@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   get 'showDetails', to:'opportunities#showDetails'
   get 'users/:id/makeadmin', to: 'users#makeadmin', :as => "active_user"
   get 'users/:id/removeadmin', to: 'users#removeadmin', :as => "deactive_user"
+
+  get 'approveApplication', to:'opportunities#approveApplication'
+  get 'rejectApplication', to:'opportunities#rejectApplication'
+
   resources :openings
   resources :opportunities
 
