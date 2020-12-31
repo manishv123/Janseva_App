@@ -1,3 +1,4 @@
+<div class="whole">
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
   <ol class="carousel-indicators">
     <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
@@ -23,4 +24,55 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </a>
+</div>
+<br><br>
+
+<div class="container" id="boxes">
+<div class="row" style="grid-gap: 20px 125px;">
+<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total Users</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= User.count %></h5>
+    <p class="card-text">We have a growing User Base and provide smooth interaction between Volunteer and NGOs</p>
+  </div>
+</div>
+<div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total Programs</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= Opening.count %></h5>
+    <p class="card-text">We have a number of Programs to Apply for Volunteership..</p>
+  </div>
+</div>
+
+<div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total NGO/Corporates</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= User.where(admin: true).count %></h5>
+    <p class="card-text">Number of NGOs that trust Us</p>
+  </div>
+</div>
+<div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total Volunteers</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= User.where(admin: false).count %></h5>
+    <p class="card-text">Number of Voluteers connected through our Platform</p>
+  </div>
+</div>
+<div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total Applications</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= Opportunity.count %></h5>
+    <p class="card-text">Number of applications till Date</p>
+  </div>
+</div>
+<div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+  <div class="card-header">Total Feedbacks</div>
+  <div class="card-body">
+    <h5 class="card-title"><%= Feedback.count %></h5>
+    <p class="card-text">Number of suggestions given in various programs for improvement</p>
+  </div>
+</div>
+</div>
+</div>
+<br><br>
 </div>
