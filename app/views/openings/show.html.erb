@@ -50,11 +50,10 @@
   </div>
 
   <div class="col">
-  <% if current_user.admin? %>
-      
-        <%= link_to "Edit", edit_opening_path(@opening),class:"btn btn-primary" ,style:'margin:1em'%>
-        <%= link_to "Delete", opening_path(@opening), 
-                        method: :delete,
+    <% if current_user.admin? %>
+      <%= link_to "Edit", edit_opening_path(@opening),class:"btn btn-primary" ,style:'margin:1em'%>
+      <%= link_to "Delete", opening_path(@opening), 
+                      method: :delete,
                         data: { confirm: "Are you sure?" },class:"btn btn-danger" %>
     
       <% if !@opening.feedbacks.empty? %>
@@ -68,32 +67,9 @@
               </p>
           <% end %>
       <% end %>
-  <% else %>
-      <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
-        <%= link_to "Apply",applyForm_path(@opening)%>
-
-        <% if !@opening.feedbacks.empty? %>
-          <br><br>
-          <h4>Feedbacks</h4>
-          <% @opening.feedbacks.each do |feedback| %>
-            <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
-            <p>
-              <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
-              <%= feedback.body %>
-            </p>
-          <% end %>
-        <% end %>
-
-        <% else %>
-          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
-          Status: 
-          <% if !@check %>
-            Pending
-          <% else %>
-            Approved
-          <% end %>
-          <br><br>
-          <%= link_to "Withdraw", withdraw_path(@opening),class:"btn btn-outline-danger" %>
+      <% else %>
+        <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
+          <%= link_to "Apply",applyForm_path(@opening)%>
 
           <% if !@opening.feedbacks.empty? %>
             <br><br>
@@ -104,7 +80,28 @@
                 <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
                 <%= feedback.body %>
               </p>
+            <% end %>
           <% end %>
+        <% else %>
+          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
+          Status: 
+          <% if !@check %>
+            Pending
+          <% else %>
+            Approved
+          <% end %>
+          <br><br>
+          <%= link_to "Withdraw", withdraw_path(@opening),class:"btn btn-outline-danger" %>
+          <% if !@opening.feedbacks.empty? %>
+            <br><br>
+            <h4>Feedbacks</h4>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <p>
+                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
+                <%= feedback.body %>
+              </p>
+            <% end %>
           <% end %>
 
           <%= render "feedback", opening: @opening%>       
