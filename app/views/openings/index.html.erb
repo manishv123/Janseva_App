@@ -7,13 +7,13 @@
 <% end %>
 
 
-<ul>
+<div class="list-group">
   <% @myOpenings.each do |opening| %>
-    <li>
+    <li class="list-group-item list-group-item-success">
         <%=link_to opening.title,opening%>
     </li>
   <% end %> 
-</ul>
+</div>
 
 <% if current_user.admin? %>
 <%= link_to "New Opening", new_opening_path %>
