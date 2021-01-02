@@ -1,18 +1,32 @@
-<h1>Hello! <%= @user.username %></h1>
-<div class="row">
-<div class="col-md-4 col-md-offset-4 center">
-<%= gravatar_for @user, size: 150 %>
+<div class="container",style:"display:inline-block">
+  <div class="row">
+    <div class="col-sm-3 ">  
+        <h1>Hello! <strong><%= @user.username %></strong></h1>
+    </div>
+    <div class="col-sm-9">
+        <%= gravatar_for @user, size: 150 %>
+    </div>
+  </div>
 </div>
-</div>
+
 <br>
-<h4>Your Email: <%= @user.email %></h4>
-<%if current_user.usid? %>
-<h4>Name: <%= @userdetail.name %></h4>
-<h4>Address: <%= @userdetail.address %></h4>
-<h4>Pincode: <%= @userdetail.pincode %></h4>
-<h4>Age: <%= @userdetail.age %></h4>
-<h4>Gender: <%= @userdetail.gender %></h4>
-<h4>Phone: <%= @userdetail.phone %></h4>
-<% end %>
+<dl class="row">
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9"> <%= @user.email %></dd>
+    <%if current_user.usid? %>
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9"><%= @userdetail.name %></dd>
+        <dt class="col-sm-3">Age</dt>
+        <dd class="col-sm-9"><%= @userdetail.age %></dd>
+        <dt class="col-sm-3">Gender</dt>
+        <dd class="col-sm-9"> <%= @userdetail.gender %></dd>
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9"><%= @userdetail.address %></dd>
+        <dt class="col-sm-3">Pincode</dt>
+        <dd class="col-sm-9"><%= @userdetail.pincode %></dd>    
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9"><%= @userdetail.phone %></dd>
+    <% end %>
+</dl>
 
 
