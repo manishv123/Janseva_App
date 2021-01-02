@@ -19,3 +19,7 @@
  }
 
 nav ul li:hover {background: #c7d8e4;}
+
+a:link { 
+    text-decoration:none; 
+}

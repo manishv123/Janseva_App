@@ -5,7 +5,9 @@
     <%end%>
 </ul>    
 <%end%>
-<%= form_for @userdetail do |f| %>
+
+<form>
+<%= form_for @userdetail do |f| %>    
 <p>
 <%= f.label :name%><br>
 <%= f.text_field :name%>
@@ -37,4 +39,5 @@
 <%= f.submit "Submit Details" %>
 </p>
 <% end %>
+</form>
 
