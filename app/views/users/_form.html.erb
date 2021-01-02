@@ -4,21 +4,23 @@
         <li><%= msg %></li>
         <%end%>
     </ul>    
-    <%end%>
+<%end%>
+<div>
     <%= form_for @user do |f| %>
-        <div class="mb-3">
-            <%= f.label :username ,class:"form-label"%><br>
-            <%= f.text_field :username, class:"form-control", style:"width:300px;"%>
-        </div>
-        <div class="mb-3">
-            <%= f.label :email ,class:"form-label"%><br>
-            <%= f.email_field :email, class:"form-control" , style:"width:300px"%>
-        </div>
-        <div class="mb-3">
-            <%= f.label :password, class:"form-label"%><br>
-            <%= f.password_field :password, class:"form-control" , style:"width:300px" %>
-        </div>
-        <div class="actions text-center">
-            <%= f.submit(@user.new_record? ? "Sign Up" : "Update") %>
-        </div> 
+    <div class="mb-3">
+        <%= f.label :username ,class:"form-label"%><br>
+        <%= f.text_field :username, class:"form-control", style:"width:300px;"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :email ,class:"form-label"%><br>
+        <%= f.email_field :email, class:"form-control" , style:"width:300px"%>
+    </div>
+    <div class="mb-3">
+        <%= f.label :password, class:"form-label"%><br>
+        <%= f.password_field :password, class:"form-control" , style:"width:300px" %>
+    </div>
+    <div class="actions">
+        <%= f.submit(@user.new_record? ? "Sign Up" : "Update") %>
+    </div>
+</div>
 <% end %>
