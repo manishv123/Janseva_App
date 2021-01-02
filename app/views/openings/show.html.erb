@@ -2,8 +2,10 @@
 <div class="row row-cols-2" >
   <div class="card col ">
     <div class="card-body">
+      <% @vacancy = @opening.vacancy - Opportunity.where(:opid =>@opening.id,:status=>true).count%>
       <h2 class="card-title"><%=@opening.title%></h2>
-      <p class="card-text"><%=@opening.description%></p>
+      <p class="card-text"><%=@opening.description%>
+      <p>Vacancy: <%= @vacancy%></p></p>
     </div>
   </div>
   <div class="col" style:"grid-row:1 / 3;">
@@ -70,7 +72,12 @@
       <% else %>
         <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
           <br>
-          <%= link_to "Apply",applyForm_path(@opening),class:"btn btn-outline-dark"%>
+          <% if @vacancy > 0%>
+            <%= link_to "Apply",applyForm_path(@opening),class:"btn btn-dark"%>
+          <% else %>
+            <button type="button" class=btn btn -dark" disabled>Apply</button>
+          <% end %>
+
           <% if !@opening.feedbacks.empty? %>
             <br><br>
             <h4>Feedbacks</h4>
@@ -92,10 +99,11 @@
             Approved
           <% end %>
           <br><br>
-          <%= link_to "Withdraw", withdraw_path(@opening),class:"btn btn-outline-danger" %>
+          <%= link_to "Withdraw", withdraw_path(@opening),class:"btn btn-outline-danger" %><br><br>
+          <% if @check || !@opening.feedbacks.empty? %>
+            <h4>Feedbacks</h4><br>
+          <% end %>
           <% if !@opening.feedbacks.empty? %>
-            <br><br>
-            <h4>Feedbacks</h4>
             <% @opening.feedbacks.each do |feedback| %>
               <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
               <div class="input-group mb-3">
@@ -104,9 +112,9 @@
               </div>
             <% end %>
           <% end %>
-
-          <%= render "feedback", opening: @opening%>       
-
+          <% if @check %>
+            <%= render "feedback", opening: @opening%>
+          <% end %>       
         <% end %>
       <% end %>
     </div>

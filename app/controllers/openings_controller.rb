@@ -70,7 +70,7 @@ class OpeningsController < ApplicationController
 
     private
     def opening_params
-        allowedParams = params.require(:opening).permit(:title, :description, :userid)
+        allowedParams = params.require(:opening).permit(:title, :description, :userid, :vacancy)
         allowedParams[:userid]=current_user.id
         allowedParams
     end
