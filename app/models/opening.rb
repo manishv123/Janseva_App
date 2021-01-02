@@ -3,4 +3,5 @@ class Opening < ApplicationRecord
 
     validates :title, presence:true
     validates :description, presence:true
+    validates :vacancy, presence:true
 end
