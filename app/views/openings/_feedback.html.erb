@@ -1,0 +1,9 @@
+<%= form_with model: [ @opening, @opening.feedbacks.build ] do |form| %>
+    <div class="field form-group">
+      <%= form.text_area :body , class:"form-control", :rows=>3 , style:'width:60%;' %>
+      <br>
+    </div>
+    <div class="actions">
+      <%= form.submit class:"btn btn-outline-primary" %>
+    </div>
+  <% end %>   
