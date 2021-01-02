@@ -54,7 +54,7 @@
 <div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
   <div class="card-header">Total Volunteers</div>
   <div class="card-body">
-    <h5 class="card-title"><%= User.where(admin: false).count %></h5>
+    <h5 class="card-title"><%= User.where(admin: false,super: false).count %></h5>
     <p class="card-text">Number of Voluteers connected through our Platform</p>
   </div>
 </div>

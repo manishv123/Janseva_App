@@ -1,117 +1,122 @@
-<h1><%= @opening.title %></h1>
-
-<p><%= @opening.description %></p>
-
-<% if current_user.admin? %>
-    <ul>
-      <li><%= link_to "Edit", edit_opening_path(@opening) %></li>
-    </ul>
-
-    <ul>
-      <li><%= link_to "Delete", opening_path(@opening), 
-                      method: :delete,
-                      data: { confirm: "Are you sure?" } %></li>
-    </ul>
-
-    <% if !@opening.feedbacks.empty? %>
-        <br><br>
-        <h4>Feedbacks</h4>
-        <% @opening.feedbacks.each do |feedback| %>
-          <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
-            <p>
-              <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
-              <%= feedback.body %>
-            </p>
-        <% end %>
-    <% end %>
-
-
-
-        <% @users = Opportunity.where(:opid =>@opening.id) %>
-        <% if !@users.empty? %>
-          <table>
-            <thead>
+<div class ="container">
+<div class="row row-cols-2" >
+  <div class="card col ">
+    <div class="card-body">
+      <% @vacancy = @opening.vacancy - Opportunity.where(:opid =>@opening.id,:status=>true).count%>
+      <h2 class="card-title"><%=@opening.title%></h2>
+      <p class="card-text"><%=@opening.description%>
+      <p>Vacancy: <%= @vacancy%></p></p>
+    </div>
+  </div>
+  <div class="col" style:"grid-row:1 / 3;">
+    <% if current_user.admin? %>
+      <% @users = Opportunity.where(:opid =>@opening.id) %>
+      <% if !@users.empty? %>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Status</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |u| %>
+              <% @userid = u.uid %>
+              <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
               <tr>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Age</th>
-                <th>Status</th>
-                <th></th>
+                <td><%= Userdetail.find_by(uuid:@userid).name %> </td>
+                <td><%= Userdetail.find_by(uuid:@userid).gender %> </td>
+                <td><%= Userdetail.find_by(uuid:@userid).age %> </td>
+                <% if !@temp %>
+                  <td>Pending</td>
+                  <% @OpID=Opportunity.find_by(opid:@opening.id,uid:@userid).id %>
+                  <td><%= link_to 'Approve',approveApplication_path(@OpID)%></td>
+                  <td><%= link_to 'Reject',rejectApplication_path(@OpID)%></td>
+                <% else %>
+                  <td>Approved</td>
+                  <td></td>
+                  <td></td>
+                <% end %>
+                <td><%= link_to "View Details", showDetails_path(@userid)%></td>
               </tr>
-            </thead>
-            <tbody>
-              <% @users.each do |u| %>
-                <% @userid = u.uid %>
-                <% @temp=Opportunity.find_by(opid:@opening.id,uid:@userid).status%>
-                <tr>
-                  <td><%= Userdetail.find_by(uuid:@userid).name %> </td>
-                  <td><%= Userdetail.find_by(uuid:@userid).gender %> </td>
-                  <td><%= Userdetail.find_by(uuid:@userid).age %> </td>
-                  <% if !@temp %>
-                    <td>Pending</td>
-                    <% @OpID=Opportunity.find_by(opid:@opening.id,uid:@userid).id %>
-                    <td><%= link_to 'Approve',approveApplication_path(@OpID)%></td>
-                    <td><%= link_to 'Reject',rejectApplication_path(@OpID)%></td>
-                  <% else %>
-                    <td>Approved</td>
-                  <% end %>
-                  <td><%= link_to "View Details", showDetails_path(@userid)%></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
-<% else %>
-
-    <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
-
-        <%= link_to "Apply",applyForm_path(@opening)%>
-
-        <% if !@opening.feedbacks.empty? %>
-            <br><br>
-            <h4>Feedbacks</h4>
-            <% @opening.feedbacks.each do |feedback| %>
-              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
-              <p>
-                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
-                <%= feedback.body %>
-              </p>
             <% end %>
-        <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    <% end %>
+  </div>
 
-
-    <% else %>
-          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
-          Status: 
-          <% if !@check %>
-            Pending
-          <% else %>
-            Approved
-          <% end %>
+  <div class="col ">
+    <% if current_user.admin? %>
+      <%= link_to "Edit", edit_opening_path(@opening),class:"btn btn-primary" ,style:'margin:1em'%>
+      <%= link_to "Delete", opening_path(@opening), 
+                      method: :delete,
+                        data: { confirm: "Are you sure?" },class:"btn btn-danger" %>
+    
+      <% if !@opening.feedbacks.empty? %>
           <br><br>
-          <%= link_to "Withdraw", withdraw_path(@opening) %>
+          <h4>Feedbacks</h4>
+          <% @opening.feedbacks.each do |feedback| %>
+            <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <div class="input-group mb-3">
+                <%= link_to (@userLink), showDetails_path(feedback.uid),class:"btn btn-outline-secondary" %>
+                <label type="label" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon10" readonly><%=feedback.body%></label>
+              </div>
+          <% end %>
+      <% end %>
+      <% else %>
+        <% if !Opportunity.where(:uid => current_user.id).where(:opid => @opening.id).exists? %>
+          <br>
+          <% if @vacancy > 0%>
+            <%= link_to "Apply",applyForm_path(@opening),class:"btn btn-dark"%>
+          <% else %>
+            <button type="button" class=btn btn -dark" disabled>Apply</button>
+          <% end %>
 
           <% if !@opening.feedbacks.empty? %>
             <br><br>
             <h4>Feedbacks</h4>
             <% @opening.feedbacks.each do |feedback| %>
               <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
-              <p>
-                <strong><%= link_to (@userLink), showDetails_path(feedback.uid) %>: </strong>
-                <%= feedback.body %>
-              </p>
+              <div class="input-group mb-3">
+                <%= link_to (@userLink), showDetails_path(feedback.uid),class:"btn btn-outline-secondary" %>
+                <label type="label" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon10" readonly><%=feedback.body%> </label>
+              </div>
+            <% end %>
           <% end %>
-    <% end %>
-
-    <%= form_with model: [ @opening, @opening.feedbacks.build ] do |form| %>
-      <p>
-        <%= form.label :Feedback %><br>
-        <%= form.text_area :body %>
-      </p>
-      <p>
-        <%= form.submit %>
-      </p>
-    <% end %>          
-
-    <% end %>
-<% end %>
+        <% else %>
+          <% @check=Opportunity.find_by(uid:current_user.id,opid:@opening.id).status%>
+          <br>
+          <strong>Status: </strong> 
+          <% if !@check %>
+            Pending
+          <% else %>
+            Approved
+          <% end %>
+          <br><br>
+          <%= link_to "Withdraw", withdraw_path(@opening),class:"btn btn-outline-danger" %><br><br>
+          <% if @check || !@opening.feedbacks.empty? %>
+            <h4>Feedbacks</h4><br>
+          <% end %>
+          <% if !@opening.feedbacks.empty? %>
+            <% @opening.feedbacks.each do |feedback| %>
+              <% @userLink= Userdetail.find_by(uuid:feedback.uid).name%>
+              <div class="input-group mb-3">
+                <%= link_to (@userLink), showDetails_path(feedback.uid),class:"btn btn-outline-secondary" %>
+                <label type="label" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon10" readonly><%=feedback.body%> </label>
+              </div>
+            <% end %>
+          <% end %>
+          <% if @check %>
+            <%= render "feedback", opening: @opening%>
+          <% end %>       
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
