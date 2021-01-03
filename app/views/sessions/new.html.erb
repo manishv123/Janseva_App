@@ -1,17 +1,17 @@
-<h1>Login</h1>
-
-
+<div class="text-center display-5">Login</div>
+<br>
+<div class="container" style="display: flex;justify-content: center;">
 <%= form_for(:session,url: login_path) do |f| %>
 <p>
-<%= f.label :email%><br>
-<%= f.email_field :email%>
+<%= f.label :email,class:"form-label"%><br>
+<%= f.email_field :email,class:"form-control", style:"width:300px"%>
 </p>
 <p>
-<%= f.label :password%><br>
-<%= f.password_field :password, autocomplete: "off" %>
+<%= f.label :password,class:"form-label"%><br>
+<%= f.password_field :password, autocomplete: "off",class:"form-control", style:"width:300px"%>
 </p>
-<p>
+<p style="display: flex;justify-content: center;">
 <%= f.submit "Log In" %>
 </p>
 <% end %>
-
+</div>
