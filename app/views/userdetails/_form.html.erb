@@ -6,35 +6,35 @@
 </ul>    
 <%end%>
 <%= form_for @userdetail do |f| %>
-<p>
-<%= f.label :name%><br>
-<%= f.text_field :name%>
-</p>
-<label for="gender">Choose gender:</label>
-<%= f.select :gender, options_for_select([["Select One", ""], "Male", "Female","Others"]), :class => 'genForm_dropBox' %>
-<br><br>
-<p>
-<%= f.label :age%><br>
-<%= f.text_field :age%>
-</p>
-<p>
-<%= f.label :address%><br>
-<%= f.text_area :address%>
-</p>
-<p>
-<%= f.label :pincode%><br>
-<%= f.text_field :pincode%>
-</p>
-<p>
-<%= f.label :phone%><br>
-<%= f.text_field :phone%>
-</p>
-<p>
-<%= f.label :aadhaar%><br>
-<%= f.text_field :aadhaar%>
-</p>
-<p>
-<%= f.submit "Submit Details" %>
-</p>
+    <div class="mb-3">
+    <%= f.label :name,class:"form-label"%><br>
+    <%= f.text_field :name, class:"form-control",style:"width:300px"%>
+    </div>
+    <label for="gender",class:"form-label">Choose gender:</label>
+    <%= f.select :gender, options_for_select([["Select One", ""], "Male", "Female","Others"]), :class => "form-select" %>
+    <br><br>
+    <div class="mb-3">
+    <%= f.label :age,class:"form-label"%><br>
+    <%= f.text_field :age, class:"form-control",style:"width:300px"%>
+    </div>
+    <div class="mb-3">
+    <%= f.label :address,class:"form-label"%><br>
+    <%= f.text_area :address, class:"form-control",style:"width:300px"%>
+    </div>
+    <div class="mb-3">
+    <%= f.label :pincode,class:"form-label"%><br>
+    <%= f.text_field :pincode, class:"form-control",style:"width:300px"%>
+    </div>
+    <div class="mb-3">
+    <%= f.label :phone,class:"form-label"%><br>
+    <%= f.text_field :phone, class:"form-control",style:"width:300px"%>
+    </div>
+    <div class="mb-3">
+    <%= f.label :aadhaar,class:"form-label"%><br>
+    <%= f.text_field :aadhaar, class:"form-control",style:"width:300px"%>
+    </div>
+    <div class="actions">
+    <%= f.submit "Submit Details" ,class:"btn btn-primary" %>
+    </div>
 <% end %>
 
