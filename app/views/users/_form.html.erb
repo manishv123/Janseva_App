@@ -19,6 +19,10 @@
             <%= f.label :password, class:"form-label"%><br>
             <%= f.password_field :password, class:"form-control" , style:"width:300px" %>
         </div>
+        <div class="mb-3">
+            <%= f.label :"confirm password", class:"form-label"%><br>
+            <%= f.password_field :cnfrmpass, class:"form-control" , style:"width:300px" %>
+        </div>
         <div class="actions">
             <%= f.submit(@user.new_record? ? "Sign Up" : "Update")%>
         </div> 

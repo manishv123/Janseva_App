@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_02_110729) do
+ActiveRecord::Schema.define(version: 2021_01_05_090709) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.integer "uid"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2021_01_02_110729) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "userid"
     t.integer "vacancy"
+    t.text "checkpoint"
+    t.text "serialno"
   end
 
   create_table "opportunities", force: :cascade do |t|
@@ -58,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_01_02_110729) do
     t.boolean "admin", default: false
     t.integer "usid"
     t.boolean "super", default: false
+    t.string "cnfrmpass"
   end
 
   add_foreign_key "feedbacks", "openings"

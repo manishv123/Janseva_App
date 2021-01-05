@@ -16,11 +16,18 @@ class UsersController < ApplicationController
 
     def create
         @user=User.new(user_params)
-        if @user.save
-            session[:user_id]=@user.id
-            flash[:success]="Successfully Signed Up"
-            redirect_to new_userdetail_path
+        
+        if @user.password==@user.cnfrmpass 
+            @user.cnfrmpass=BCrypt::Password.create(user_params[:cnfrmpass])
+            if @user.save
+                session[:user_id]=@user.id
+                flash[:success]="Successfully Signed Up"
+                redirect_to new_userdetail_path
+            else
+                render 'new'
+            end
         else
+            flash[:danger]="Passwords do not match"
             render 'new'
         end
     end
@@ -30,11 +37,17 @@ class UsersController < ApplicationController
     end
 
     def update
-
-        if @user.update(user_params)
-            flash[:success]="Successfully Updated" 
-            redirect_to root_path
+        if user_params[:password]==user_params[:cnfrmpass]
+            @cp=BCrypt::Password.create(user_params[:cnfrmpass])
+            user_params[:cnfrmpass]=@cp
+            if @user.update(user_params)
+                flash[:success]="Successfully Updated" 
+                redirect_to root_path
+            else
+                render 'edit'
+            end
         else
+            flash[:danger]="Passwords do not match"
             render 'edit'
         end
     end
@@ -59,7 +72,7 @@ class UsersController < ApplicationController
 
     private
     def user_params
-        params.require(:user).permit(:username, :email, :password)
+        params.require(:user).permit(:username, :email, :password, :cnfrmpass)
     end
     def set_user
         @user=User.find(params[:id])
