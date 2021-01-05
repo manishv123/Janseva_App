@@ -38,11 +38,11 @@ class UsersController < ApplicationController
 
     def update
         if user_params[:password]==user_params[:cnfrmpass]
-            @cp=BCrypt::Password.create(user_params[:cnfrmpass])
-            user_params[:cnfrmpass]=@cp
             if @user.update(user_params)
-                flash[:success]="Successfully Updated" 
-                redirect_to root_path
+                if @user.update_attribute(:cnfrmpass,BCrypt::Password.create(@user.cnfrmpass))
+                    flash[:success]="Successfully Updated" 
+                    redirect_to root_path
+                end
             else
                 render 'edit'
             end
